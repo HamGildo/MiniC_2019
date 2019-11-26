@@ -137,7 +137,11 @@ public class SymbolTable {
 	}
 	
 	String getVarId(String name){
-		// <Fill here>	
+		// <Fill here>
+        String sname = "";
+        VarInfo varInfo = _lsymtable.get(name);
+        sname += Integer.toString(varInfo.id); // 함수의 이름으로 테이블에 있는 var정보를 찾아 id를 리턴
+        return sname;
 	}
 	
 	Type getVarType(String name){
@@ -163,7 +167,7 @@ public class SymbolTable {
 	}
 
 	// global
-	public String getVarId(Var_declContext ctx) {
+	public String getVarId(Var_declContext ctx) { //글로벌 무시
 		// <Fill here>	
 	}
 
