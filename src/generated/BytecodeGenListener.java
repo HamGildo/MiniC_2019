@@ -157,12 +157,12 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		String l1 = symbolTable.newLabel();
 		String lend = symbolTable.newLabel();
 
-		stmt += l1 + ":" + "\n"
-				+ condExpr +"\n"
-				+ "ifeq " + lend + "\n"
-				+ loop_stmt + "\n"
-				+ "goto " + l1 + "\n"
-				+ lend + ":" + "\n";
+		stmt += l1 + ":" + "\n" // while loop
+				+ condExpr +"\n" // condition
+				+ "ifeq " + lend + "\n" // if false (0일때) goto lend
+				+ loop_stmt + "\n" // if true (1일때) stmt 실행
+				+ "goto " + l1 + "\n" // stmt 후 다시 while loop로
+				+ lend + ":" + "\n"; // lend
 
 		newTexts.put(ctx, stmt);
 	}
@@ -205,11 +205,11 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 	public void exitLocal_decl(MiniCParser.Local_declContext ctx) {
 		String varDecl = "";
 		
-		if (isDeclWithInit(ctx)) {
+		if (isDeclWithInit(ctx)) { // 초기화가 있는 경우
 			symbolTable.putLocalVarWithInitVal(getLocalVarName(ctx), Type.INT, initVal(ctx));
 			String vId = symbolTable.getVarId(ctx);
 			varDecl += "ldc " + ctx.LITERAL().getText() + "\n"
-					+ "istore_" + vId + "\n"; 			
+					+ "istore_" + vId + "\n"; // 테이블에서 해당 var의 id를 꺼내와서 저장
 		}
 		
 		newTexts.put(ctx, varDecl);
@@ -222,7 +222,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		// <(3) Fill here>
 		String compound_stmt = "";
 		for(int i = 1; i < ctx.getChildCount()-1; i++) { // '{' '}' 를 제외한 자식들
-			compound_stmt += newTexts.get(ctx.getChild(i));
+			compound_stmt += newTexts.get(ctx.getChild(i)); // 순서에 맞게 넣어주면 됨
 		}
 
 		newTexts.put(ctx, compound_stmt);
@@ -239,20 +239,20 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		String lelse = symbolTable.newLabel();
 		
 		
-		if(noElse(ctx)) {		
-			stmt += condExpr + "\n"
-				+ "ifeq " + lend + "\n"
-				+ thenStmt + "\n"
-				+ lend + ":"  + "\n";	
+		if(noElse(ctx)) { // else가 없을 때
+			stmt += condExpr + "\n" // condition
+				+ "ifeq " + lend + "\n" // 거짓이면 goto lend
+				+ thenStmt + "\n" // 참이면 then stmt 실행
+				+ lend + ":"  + "\n";	// lend
 		}
-		else {
+		else { // else 존재함
 			String elseStmt = newTexts.get(ctx.stmt(1));
 			stmt += condExpr + "\n"
-					+ "ifeq " + lelse + "\n"
-					+ thenStmt + "\n"
-					+ "goto " + lend + "\n"
-					+ lelse + ": " + elseStmt + "\n"
-					+ lend + ":"  + "\n";	
+					+ "ifeq " + lelse + "\n" // 거짓일 경우 goto lelse
+					+ thenStmt + "\n" // 참일 경우 then stmt 실행
+					+ "goto " + lend + "\n" // if문이 끝나면 lend로
+					+ lelse + ": " + elseStmt + "\n" // else의 stmt
+					+ lend + ":"  + "\n"; // lend
 		}
 		
 		newTexts.put(ctx, stmt);
@@ -263,6 +263,9 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 	@Override
 	public void exitReturn_stmt(MiniCParser.Return_stmtContext ctx) {
 			// <(4) Fill here>
+		if(ctx.getChildCount() == 2) { // RETURN ';'
+
+		}
 	}
 
 	

@@ -57,6 +57,8 @@ public class BytecodeGenListenerHelper {
 	
 	static boolean isVoidF(Fun_declContext ctx) {
 			// <Fill in>
+		if(ctx.type_spec().getText().equals("void")) return true;
+		else return false;
 	}
 	
 	static boolean isIntReturn(MiniCParser.Return_stmtContext ctx) {
