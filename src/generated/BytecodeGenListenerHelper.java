@@ -90,6 +90,7 @@ public class BytecodeGenListenerHelper {
 	// params
 	static String getParamName(ParamContext param) {
 		// <Fill in>
+		return param.IDENT().getText();
 	}
 	
 	static String getParamTypesText(ParamsContext params) {
