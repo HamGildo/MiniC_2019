@@ -380,10 +380,10 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 				
 			case "==":
 				expr += "isub " + "\n"
-						+ "ifeq l2"+ "\n"
+						+ "ifeq" + l2 + "\n"
 						+ "ldc 0" + "\n"
 						+ "goto " + lend + "\n"
-						+ l2 + ": " + "ldc 1" + "\n"
+						+ l2 + ": \n" + "ldc 1" + "\n"
 						+ lend + ": " + "\n";
 				break;
 			case "!=":
