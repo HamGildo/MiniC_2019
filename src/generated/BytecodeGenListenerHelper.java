@@ -79,6 +79,12 @@ public class BytecodeGenListenerHelper {
 	}
 	static String getTypeText(Type_specContext typespec) {
 			// <Fill in>
+		String typetext = "";
+		if(typespec.getText().equals("int")) { // type이 int라면 I를 넣어줌
+			typetext += "I";
+		}
+
+		return typespec.getText();
 	}
 
 	// params

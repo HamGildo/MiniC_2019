@@ -120,12 +120,11 @@ public class SymbolTable {
 		String res = "";
 		
 		// <Fill here>
-		for(int i = 0; i < ctx.params().param().size(); i++) { // 가지고 있는 매개변수 수만큼 I 추가
-			argtype += "I";
+		argtype += getParamTypesText(ctx.params()); // 가지고 있는 매개변수의 타입들을 넣어줌
+		if(isVoidF(ctx)) { //void 리턴 함수
+			rtype += "V";
 		}
-		if(ctx.type_spec().getText().equals("int")) { //리턴 타입이 int일 때,
-			rtype += "I";
-		}
+		else rtype += "I"; //int 리턴 함수
 
 		res =  fname + "(" + argtype + ")" + rtype;
 		
