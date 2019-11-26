@@ -1,4 +1,6 @@
 // Generated from C:/Users/ham54/IdeaProjects/MiniC_2019/src\MiniC.g4 by ANTLR 4.7.2
+package generated;
+
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;

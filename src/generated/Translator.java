@@ -1,10 +1,12 @@
-package listener.main;
+package generated;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 
 import generated.*;
+
+import java.nio.file.Paths;
 
 public class Translator {
 	enum OPTIONS {
@@ -31,7 +33,7 @@ public class Translator {
 	
 	public static void main(String[] args) throws Exception
 	{
-		CharStream codeCharStream = CharStreams.fromFileName("test.c");
+		CharStream codeCharStream = CharStreams.fromPath(Paths.get("C:\\Users\\ham54\\IdeaProjects\\MiniC_2019\\src\\test.c"));
 		MiniCLexer lexer = new MiniCLexer(codeCharStream);
 		CommonTokenStream tokens = new CommonTokenStream( lexer );
 		MiniCParser parser = new MiniCParser( tokens );
@@ -39,15 +41,15 @@ public class Translator {
 		
 		ParseTreeWalker walker = new ParseTreeWalker();
 		switch (getOption(args)) {
-			case PRETTYPRINT : 		
-				walker.walk(new MiniCPrintListener(), tree );
-				break;
+//			case PRETTYPRINT :
+//				walker.walk(new MiniCPrintListener(), tree );
+//				break;
 			case BYTECODEGEN:
 				walker.walk(new BytecodeGenListener(), tree );
 				break;
-			case UCODEGEN:
-				walker.walk(new UCodeGenListener(), tree );
-				break;
+//			case UCODEGEN:
+//				walker.walk(new UCodeGenListener(), tree );
+//				break;
 			default:
 				break;
 		}

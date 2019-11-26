@@ -71,7 +71,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 			symbolTable.putLocalVar(getLocalVarName(ctx), Type.INTARRAY);
 		}
 		else if (isDeclWithInit(ctx)) { //버그 수정
-			//symbolTable.putLocalVarWithInitVal(getLocalVarName(ctx), Type.INT, initVal(ctx));
+			symbolTable.putLocalVarWithInitVal(getLocalVarName(ctx), Type.INT, initVal(ctx));
 		}
 		else  { // simple decl
 			symbolTable.putLocalVar(getLocalVarName(ctx), Type.INT); // 로컬 테이블에 넣어준다.
@@ -206,7 +206,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		String varDecl = "";
 		
 		if (isDeclWithInit(ctx)) { // 초기화가 있는 경우
-			symbolTable.putLocalVarWithInitVal(getLocalVarName(ctx), Type.INT, initVal(ctx));
+			//symbolTable.putLocalVarWithInitVal(getLocalVarName(ctx), Type.INT, initVal(ctx));
 			String vId = symbolTable.getVarId(ctx);
 			varDecl += "ldc " + ctx.LITERAL().getText() + "\n"
 					+ "istore_" + vId + "\n"; // 테이블에서 해당 var의 id를 꺼내와서 저장

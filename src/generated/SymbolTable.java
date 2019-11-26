@@ -76,6 +76,9 @@ public class SymbolTable {
 	
 	void putLocalVarWithInitVal(String varname, Type type, int initVar){
 		//<Fill here>
+		int localTableSize = _lsymtable.size(); //현재 로컬테이블에 몇개가 있는지 알아냄
+		VarInfo localinfo = new VarInfo(type, localTableSize, initVar); // 이미 다른 변수가 차지한 번호 다음 번호부터 매긴다.
+		_lsymtable.put(varname, localinfo);
 	}
 	void putGlobalVarWithInitVal(String varname, Type type, int initVar){ //글로벌 변수는 없다고 가정하기에 무시한다.
 		//<Fill here>
@@ -139,7 +142,7 @@ public class SymbolTable {
 		// <Fill here>
         String sname = "";
         VarInfo varInfo = _lsymtable.get(name);
-        sname += Integer.toString(varInfo.id); // 함수의 이름으로 테이블에 있는 var정보를 찾아 id를 리턴
+        sname = Integer.toString(varInfo.id); // 함수의 이름으로 테이블에 있는 var정보를 찾아 id를 리턴
         return sname;
 	}
 	
@@ -165,10 +168,10 @@ public class SymbolTable {
 		return id + _tempVarID--;
 	}
 
-	// global
-	public String getVarId(Var_declContext ctx) { //글로벌 무시
-		// <Fill here>	
-	}
+//	// global
+//	public String getVarId(Var_declContext ctx) { //글로벌 무시
+//		// <Fill here>
+//	}
 
 	// local
 	public String getVarId(Local_declContext ctx) {
