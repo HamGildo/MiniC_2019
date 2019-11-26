@@ -81,7 +81,8 @@ public class SymbolTable {
 	void putParams(MiniCParser.ParamsContext params) {
 		for(int i = 0; i < params.param().size(); i++) {
 		//<Fill here>
-
+			VarInfo paraminfo = new VarInfo(Type.INT,i);
+			_lsymtable.put(params.param(i).IDENT().getText(), paraminfo);
 		}
 	}
 	
@@ -113,7 +114,6 @@ public class SymbolTable {
 		for(int i = 0; i < ctx.params().param().size(); i++) { // 가지고 있는 매개변수 수만큼 I 추가
 			argtype += "I";
 		}
-
 		if(ctx.type_spec().getText().equals("int")) { //리턴 타입이 int일 때,
 			rtype += "I";
 		}
