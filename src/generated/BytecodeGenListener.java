@@ -74,7 +74,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 			//symbolTable.putLocalVarWithInitVal(getLocalVarName(ctx), Type.INT, initVal(ctx));
 		}
 		else  { // simple decl
-			symbolTable.putLocalVar(getLocalVarName(ctx), Type.INT); //
+			symbolTable.putLocalVar(getLocalVarName(ctx), Type.INT); // 로컬 테이블에 넣어준다.
 		}	
 	}
 
