@@ -81,20 +81,20 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 	
 	@Override
 	public void exitProgram(MiniCParser.ProgramContext ctx) {
-		String classProlog = getFunProlog();
-		
+		String classProlog = getFunProlog(); // 초반 클래스 생성부
+		// 글로벌 변수와 함수들로 이루어짐
 		String fun_decl = "", var_decl = "";
 		
 		for(int i = 0; i < ctx.getChildCount(); i++) {
 			if(isFunDecl(ctx, i))
-				fun_decl += newTexts.get(ctx.decl(i));
+				fun_decl += newTexts.get(ctx.decl(i)); //함수들 얻기
 			else
-				var_decl += newTexts.get(ctx.decl(i));
+				var_decl += newTexts.get(ctx.decl(i)); //글로벌 변수 얻기
 		}
 		
-		newTexts.put(ctx, classProlog + var_decl + fun_decl);
+		newTexts.put(ctx, classProlog + var_decl + fun_decl); // 초반부 + 글로벌 변수 + 함수 순서로 다시 newText로 들어감
 		
-		System.out.println(newTexts.get(ctx));
+		System.out.println(newTexts.get(ctx)); // JVM 어셈으로 바꾼 파일 출력~!
 	}	
 	
 	
@@ -109,7 +109,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 			else							//fun_decl
 				decl += newTexts.get(ctx.fun_decl());
 		}
-		newTexts.put(ctx, decl);
+		newTexts.put(ctx, decl); // 자식들을 가지고 와서 decl을 얻어 newText에 저장
 	}
 	
 	// stmt	: expr_stmt | compound_stmt | if_stmt | while_stmt | return_stmt
@@ -122,8 +122,16 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 				stmt += newTexts.get(ctx.expr_stmt());
 			else if(ctx.compound_stmt() != null)	// compound_stmt
 				stmt += newTexts.get(ctx.compound_stmt());
-			// <(0) Fill here>				
-	}
+			// <(0) Fill here>
+			else if(ctx.if_stmt() != null) // if_stmt
+				stmt += newTexts.get(ctx.if_stmt());
+			else if(ctx.while_stmt() != null) // while_stmt
+				stmt += newTexts.get(ctx.while_stmt());
+			else if(ctx.return_stmt() != null) // return_stmt
+				stmt += newTexts.get(ctx.return_stmt());
+			else
+				System.out.println("error!");
+		}
 		newTexts.put(ctx, stmt);
 	}
 	
