@@ -118,6 +118,7 @@ public class BytecodeGenListenerHelper {
 
 	static String getFunName(ExprContext ctx) {
 		// <Fill in>
+		return ctx.IDENT().getText();
 	}
 	
 	static boolean noElse(If_stmtContext ctx) {
