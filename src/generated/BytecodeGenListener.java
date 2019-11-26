@@ -173,8 +173,9 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 			// <(2) Fill here!>
 		String fun_decl = "";
 		fun_decl += funcHeader(ctx, getFunName(ctx))
-				+ ;
+				+ newTexts.get(ctx.compound_stmt());
 
+		newTexts.put(ctx, fun_decl);
 	}
 	
 
