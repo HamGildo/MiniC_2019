@@ -288,7 +288,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		}		
 		
 		if(ctx.getChildCount() == 1) { // IDENT | LITERAL
-			if(ctx.IDENT() != null) {
+			if(ctx.IDENT() != null) { //IDENT 일 경우
 				String idName = ctx.IDENT().getText();
 				if(symbolTable.getVarType(idName) == Type.INT) {
 					expr += "iload_" + symbolTable.getVarId(idName) + " \n";
@@ -304,7 +304,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		}
 		else if(ctx.getChildCount() == 3) {	 
 			if(ctx.getChild(0).getText().equals("(")) { 		// '(' expr ')'
-				expr = newTexts.get(ctx.expr(0));
+				expr = newTexts.get(ctx.expr(0)); // 괄호 안에 있으면 안에 있는 expr만 넣음
 				
 			} else if(ctx.getChild(1).getText().equals("=")) { 	// IDENT '=' expr
 				expr = newTexts.get(ctx.expr(0))
@@ -338,21 +338,21 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		expr += newTexts.get(ctx.expr(0));
 		switch(ctx.getChild(0).getText()) {
 		case "-":
-			expr += "           ineg \n"; break;
+			expr += "ineg \n"; break; // 음수
 		case "--":
-			expr += "ldc 1" + "\n"
+			expr += "ldc 1" + "\n" // 1빼기
 					+ "isub" + "\n";
 			break;
 		case "++":
-			expr += "ldc 1" + "\n"
+			expr += "ldc 1" + "\n" // 1더하기
 					+ "iadd" + "\n";
 			break;
 		case "!":
-			expr += "ifeq " + l2 + "\n"
-					+ l1 + ": " + "ldc 0" + "\n"
-					+ "goto " + lend + "\n"
-					+ l2 + ": " + "ldc 1" + "\n"
-					+ lend + ": " + "\n";
+			expr += "ifeq " + l2 + "\n" // 거짓이면 (0일때) goto l2
+					+ l1 + ": " + "ldc 0" + "\n" // 참이면 (1일때) false (0)
+					+ "goto " + lend + "\n" // goto lend
+					+ l2 + ": " + "ldc 1" + "\n" // true (1)
+					+ lend + ": " + "\n"; // lend
 			break;
 		}
 		return expr;
@@ -367,15 +367,15 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		expr += newTexts.get(ctx.expr(1));
 		
 		switch (ctx.getChild(1).getText()) {
-			case "*":
+			case "*": // 곱셈
 				expr += "imul \n"; break;
-			case "/":
+			case "/": // 나눗셈
 				expr += "idiv \n"; break;
-			case "%":
+			case "%": // 나머지
 				expr += "irem \n"; break;
-			case "+":		// expr(0) expr(1) iadd
+			case "+":		// expr(0) expr(1) iadd 덧셈
 				expr += "iadd \n"; break;
-			case "-":
+			case "-": // 뺄셈
 				expr += "isub \n"; break;
 				
 			case "==":
@@ -396,26 +396,50 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 				break;
 			case "<=":
 				// <(5) Fill here>
+				expr += "ifle l2"+ "\n" // 작거나 같을 때 goto l2
+						+ "ldc 0" + "\n" // false
+						+ "goto " + lend + "\n"
+						+ l2 + ": " + "ldc 1" + "\n" // true
+						+ lend + ": " + "\n"; // lend
 				break;
 			case "<":
 				// <(6) Fill here>
+				expr += "iflt l2"+ "\n" // 작을 때 goto l2
+						+ "ldc 0" + "\n" // false
+						+ "goto " + lend + "\n"
+						+ l2 + ": " + "ldc 1" + "\n" // true
+						+ lend + ": " + "\n"; // lend
 				break;
 
 			case ">=":
 				// <(7) Fill here>
+				expr += "ifge l2"+ "\n" // 크거나 같을 때 goto l2
+						+ "ldc 0" + "\n" // false
+						+ "goto " + lend + "\n"
+						+ l2 + ": " + "ldc 1" + "\n" // true
+						+ lend + ": " + "\n"; // lend
 
 				break;
 
 			case ">":
 				// <(8) Fill here>
+				expr += "ifgt l2"+ "\n" // 클 때 goto l2
+						+ "ldc 0" + "\n" // false
+						+ "goto " + lend + "\n"
+						+ l2 + ": " + "ldc 1" + "\n" // true
+						+ lend + ": " + "\n"; // lend
 				break;
 
 			case "and":
 				expr +=  "ifne "+ lend + "\n"
 						+ "pop" + "\n" + "ldc 0" + "\n"
-						+ lend + ": " + "\n"; break;
+						+ lend + ": " + "\n";
+				break;
 			case "or":
 				// <(9) Fill here>
+				expr +=  "ifne "+ lend + "\n"
+						+ "pop\n"
+						+ lend + ": " + "\n";
 				break;
 
 		}
