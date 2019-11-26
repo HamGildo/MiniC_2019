@@ -300,7 +300,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 					expr += "ldc " + literalStr + " \n";
 				}
 			} else if(ctx.getChildCount() == 2) { // UnaryOperation
-			expr = handleUnaryExpr(ctx, newTexts.get(ctx) + expr);			
+			expr = handleUnaryExpr(ctx, newTexts.get(ctx.expr(0)) + expr);
 		}
 		else if(ctx.getChildCount() == 3) {	 
 			if(ctx.getChild(0).getText().equals("(")) { 		// '(' expr ')'
@@ -391,7 +391,8 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 						+ "ifne l2"+ "\n"
 						+ "ldc 0" + "\n"
 						+ "goto " + lend + "\n"
-						+ l2 + ": " + "ldc 1" + "\n"
+						+ l2 + ": \n"
+						+ "ldc 1" + "\n"
 						+ lend + ": " + "\n";
 				break;
 			case "<=":

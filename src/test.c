@@ -1,6 +1,10 @@
 int sum(int a){
 int result = 0;
 result = result + a;
+while(a != 0) {
+result = result - 1;
+-- a;
+}
 return result;
 }
 void main() {
