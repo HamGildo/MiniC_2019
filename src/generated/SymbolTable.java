@@ -86,7 +86,7 @@ public class SymbolTable {
 		for(int i = 0; i < params.param().size(); i++) { //매개변수 모두를 로컬테이블에 미리 넣어줌
 		//<Fill here>
 			VarInfo paraminfo = new VarInfo(Type.INT,i); // MiniC의 매개변수의 타입은 int
-			_lsymtable.put(params.param(i).IDENT().getText(), paraminfo); // 매개변수는 로컬 테이블에 넣는다
+			_lsymtable.put(getParamName(params.param(i)), paraminfo); // 매개변수는 로컬 테이블에 넣는다
 		}
 	}
 	

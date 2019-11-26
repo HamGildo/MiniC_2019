@@ -90,7 +90,7 @@ public class BytecodeGenListenerHelper {
 	// params
 	static String getParamName(ParamContext param) {
 		// <Fill in>
-		return param.IDENT().getText();
+		return param.IDENT().getText(); // 매개변수의 이름을 반환
 	}
 	
 	static String getParamTypesText(ParamsContext params) {
@@ -100,7 +100,7 @@ public class BytecodeGenListenerHelper {
 			MiniCParser.Type_specContext typespec = (MiniCParser.Type_specContext)  params.param(i).getChild(0);
 			typeText += getTypeText(typespec); // + ";";
 		}
-		return typeText;
+		return typeText; // 매개변수의 타입을 JVM 형식에 맞게 저장하기 위해 반환
 	}
 	
 	static String getLocalVarName(Local_declContext local_decl) { //로컬 변수의 이름을 반환
