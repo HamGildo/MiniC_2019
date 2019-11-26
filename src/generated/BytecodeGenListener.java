@@ -172,8 +172,8 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 	public void exitFun_decl(MiniCParser.Fun_declContext ctx) {
 			// <(2) Fill here!>
 		String fun_decl = "";
-		fun_decl += funcHeader(ctx, getFunName(ctx))
-				+ newTexts.get(ctx.compound_stmt());
+		fun_decl += funcHeader(ctx, getFunName(ctx)) // 헤더를 넣어준 뒤,
+				+ newTexts.get(ctx.compound_stmt()); // 함수의 내용을 넣어준다.
 
 		newTexts.put(ctx, fun_decl);
 	}
@@ -220,6 +220,12 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 	@Override
 	public void exitCompound_stmt(MiniCParser.Compound_stmtContext ctx) {
 		// <(3) Fill here>
+		String compound_stmt = "";
+		for(int i = 1; i < ctx.getChildCount()-1; i++) { // '{' '}' 를 제외한 자식들
+			compound_stmt += newTexts.get(ctx.getChild(i));
+		}
+
+		newTexts.put(ctx, compound_stmt);
 	}
 
 	// if_stmt	: IF '(' expr ')' stmt | IF '(' expr ')' stmt ELSE stmt;

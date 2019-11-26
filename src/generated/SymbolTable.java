@@ -174,8 +174,8 @@ public class SymbolTable {
 	// local
 	public String getVarId(Local_declContext ctx) {
 		String sname = "";
-		sname += getVarId(ctx.IDENT().getText());
-		return sname;
+		sname += getVarId(ctx.IDENT().getText()); // 함수 이름으로 id를 찾아주는 함수를 콜
+		return sname; // id 반환
 	}
 	
 }
