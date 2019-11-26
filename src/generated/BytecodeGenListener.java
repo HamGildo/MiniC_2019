@@ -171,6 +171,10 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 	@Override
 	public void exitFun_decl(MiniCParser.Fun_declContext ctx) {
 			// <(2) Fill here!>
+		String fun_decl = "";
+		fun_decl += funcHeader(ctx, getFunName(ctx))
+				+ ;
+
 	}
 	
 

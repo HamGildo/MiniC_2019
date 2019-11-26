@@ -102,10 +102,15 @@ public class SymbolTable {
 	
 	public String getFunSpecStr(String fname) {		
 		// <Fill here>
+        String funspec = "";
+        FInfo fInfo = _fsymtable.get(fname); // 함수 테이블에서 함수 이름을 통해 그에 맞는 폼을 찾은 후
+        funspec += fInfo.sigStr; // 해당 폼을 반환
+        return funspec;
 	}
 
 	public String getFunSpecStr(Fun_declContext ctx) {
-		// <Fill here>	
+		// <Fill here>
+        return getFunSpecStr(getFunName(ctx));
 	}
 	
 	public String putFunSpecStr(Fun_declContext ctx) {
