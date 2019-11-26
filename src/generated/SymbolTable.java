@@ -64,6 +64,9 @@ public class SymbolTable {
 	
 	void putLocalVar(String varname, Type type){
 		//<Fill here>
+        int localTableSize = _lsymtable.size(); //현재 로컬테이블에 몇개가 있는지 알아냄
+        VarInfo localinfo = new VarInfo(type, localTableSize); // 이미 다른 변수가 차지한 번호 다음 번호부터 매긴다.
+        _lsymtable.put(varname, localinfo);
 	}
 	
 	void putGlobalVar(String varname, Type type){ //글로벌 변수는 없다고 가정하기에 무시한다.
@@ -80,7 +83,7 @@ public class SymbolTable {
 	}
 	
 	void putParams(MiniCParser.ParamsContext params) {
-		for(int i = 0; i < params.param().size(); i++) {
+		for(int i = 0; i < params.param().size(); i++) { //매개변수 모두를 로컬테이블에 미리 넣어줌
 		//<Fill here>
 			VarInfo paraminfo = new VarInfo(Type.INT,i); // MiniC의 매개변수의 타입은 int
 			_lsymtable.put(params.param(i).IDENT().getText(), paraminfo); // 매개변수는 로컬 테이블에 넣는다
