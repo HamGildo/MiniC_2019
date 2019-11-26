@@ -143,7 +143,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		{
 			stmt += newTexts.get(ctx.expr());	// expr
 		}
-		newTexts.put(ctx, stmt);
+		newTexts.put(ctx, stmt); // expr 값을 얻어온 뒤, 다시 newTexts의 Expr_stmt에 저장
 	}
 	
 	
@@ -151,6 +151,20 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 	@Override
 	public void exitWhile_stmt(MiniCParser.While_stmtContext ctx) {
 			// <(1) Fill here!>
+		String stmt = "";
+		String loop_stmt = newTexts.get(ctx.stmt());
+		String condExpr= newTexts.get(ctx.expr());
+		String l1 = symbolTable.newLabel();
+		String lend = symbolTable.newLabel();
+
+		stmt += l1 + ":" + "\n"
+				+ condExpr +"\n"
+				+ "ifeq " + lend + "\n"
+				+ loop_stmt + "\n"
+				+ "goto " + l1 + "\n"
+				+ lend + ":" + "\n";
+
+		newTexts.put(ctx, stmt);
 	}
 	
 	
@@ -160,7 +174,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 	}
 	
 
-	private String funcHeader(MiniCParser.Fun_declContext ctx, String fname) {
+	private String funcHeader(MiniCParser.Fun_declContext ctx, String fname) { // 스택 할당부
 		return ".method public static " + symbolTable.getFunSpecStr(fname) + "\n"	
 				+ "\t" + ".limit stack " 	+ getStackSize(ctx) + "\n"
 				+ "\t" + ".limit locals " 	+ getLocalVarSize(ctx) + "\n";
