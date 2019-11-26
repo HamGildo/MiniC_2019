@@ -7,4 +7,5 @@ void main() {
 int aa = 0;
 aa = sum(10);
 _print(aa);
+return ;
 }

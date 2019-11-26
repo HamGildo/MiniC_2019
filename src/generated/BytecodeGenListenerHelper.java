@@ -84,7 +84,7 @@ public class BytecodeGenListenerHelper {
 			typetext += "I";
 		}
 
-		return typespec.getText();
+		return typetext;
 	}
 
 	// params
@@ -128,7 +128,7 @@ public class BytecodeGenListenerHelper {
 	static String getFunProlog() { // 초반에 클래스 생성부는 통일되기 때문에 직접 넣어준다.
 		String prolog = "";
 		prolog += ".class public Test\n";
-		prolog += "super java/lang/Object\n";
+		prolog += ".super java/lang/Object\n";
 		prolog += ".method public <init>()V\n";
 		prolog += "aload_0\n";
 		prolog += "invokenonvirtual java/lang/Object/<init>()V\n";
