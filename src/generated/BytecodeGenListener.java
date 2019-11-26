@@ -41,16 +41,16 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		if (fname.equals("main")) {
 			symbolTable.putLocalVar("args", Type.INTARRAY); //뿡
 		} else {
-			symbolTable.putFunSpecStr(ctx);
+			symbolTable.putFunSpecStr(ctx); //함수의 폼을 테이블에 넣기
 			params = (MiniCParser.ParamsContext) ctx.getChild(3);
-			symbolTable.putParams(params); //뿡
+			symbolTable.putParams(params); //함수의 매개변수를 로컬변수 테이블에 넣기
 		}		
 	}
 
 	
 	// var_decl	: type_spec IDENT ';' | type_spec IDENT '=' LITERAL ';'|type_spec IDENT '[' LITERAL ']' ';'
 	@Override
-	public void enterVar_decl(MiniCParser.Var_declContext ctx) {
+	public void enterVar_decl(MiniCParser.Var_declContext ctx) { //글로벌 변수는 무시한다.
 		String varName = ctx.IDENT().getText();
 		
 		if (isArrayDecl(ctx)) {
@@ -67,10 +67,10 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 	
 	@Override
 	public void enterLocal_decl(MiniCParser.Local_declContext ctx) {			
-		if (isArrayDecl(ctx)) {
+		if (isArrayDecl(ctx)) { //배열입력은 무시한다.
 			symbolTable.putLocalVar(getLocalVarName(ctx), Type.INTARRAY);
 		}
-		else if (isDeclWithInit(ctx)) {
+		else if (isDeclWithInit(ctx)) { //버그 수정
 			//symbolTable.putLocalVarWithInitVal(getLocalVarName(ctx), Type.INT, initVal(ctx));
 		}
 		else  { // simple decl

@@ -94,8 +94,11 @@ public class BytecodeGenListenerHelper {
 		return typeText;
 	}
 	
-	static String getLocalVarName(Local_declContext local_decl) {
+	static String getLocalVarName(Local_declContext local_decl) { //로컬 변수의 이름을 반환
 		// <Fill in>
+		String localName = "";
+		localName = local_decl.IDENT().getText(); // ctx의 IDENT는 변수의 이름
+		return localName;
 	}
 	
 	static String getFunName(Fun_declContext ctx) { //함수의 이름을 반환

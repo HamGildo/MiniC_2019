@@ -66,14 +66,15 @@ public class SymbolTable {
 		//<Fill here>
 	}
 	
-	void putGlobalVar(String varname, Type type){
+	void putGlobalVar(String varname, Type type){ //글로벌 변수는 없다고 가정하기에 무시한다.
 		//<Fill here>
+
 	}
 	
 	void putLocalVarWithInitVal(String varname, Type type, int initVar){
 		//<Fill here>
 	}
-	void putGlobalVarWithInitVal(String varname, Type type, int initVar){
+	void putGlobalVarWithInitVal(String varname, Type type, int initVar){ //글로벌 변수는 없다고 가정하기에 무시한다.
 		//<Fill here>
 	
 	}
@@ -81,8 +82,8 @@ public class SymbolTable {
 	void putParams(MiniCParser.ParamsContext params) {
 		for(int i = 0; i < params.param().size(); i++) {
 		//<Fill here>
-			VarInfo paraminfo = new VarInfo(Type.INT,i);
-			_lsymtable.put(params.param(i).IDENT().getText(), paraminfo);
+			VarInfo paraminfo = new VarInfo(Type.INT,i); // MiniC의 매개변수의 타입은 int
+			_lsymtable.put(params.param(i).IDENT().getText(), paraminfo); // 매개변수는 로컬 테이블에 넣는다
 		}
 	}
 	
