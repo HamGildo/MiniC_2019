@@ -388,7 +388,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 				break;
 			case "!=":
 				expr += "isub " + "\n"
-						+ "ifne l2"+ "\n"
+						+ "ifne "+l2+ "\n"
 						+ "ldc 0" + "\n"
 						+ "goto " + lend + "\n"
 						+ l2 + ": \n"
@@ -397,7 +397,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 				break;
 			case "<=":
 				// <(5) Fill here>
-				expr += "ifle l2"+ "\n" // 작거나 같을 때 goto l2
+				expr += "ifle " +l2+ "\n" // 작거나 같을 때 goto l2
 						+ "ldc 0" + "\n" // false
 						+ "goto " + lend + "\n"
 						+ l2 + ": " + "ldc 1" + "\n" // true
@@ -405,7 +405,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 				break;
 			case "<":
 				// <(6) Fill here>
-				expr += "iflt l2"+ "\n" // 작을 때 goto l2
+				expr += "iflt "+ l2+ "\n" // 작을 때 goto l2
 						+ "ldc 0" + "\n" // false
 						+ "goto " + lend + "\n"
 						+ l2 + ": " + "ldc 1" + "\n" // true
@@ -414,7 +414,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 
 			case ">=":
 				// <(7) Fill here>
-				expr += "ifge l2"+ "\n" // 크거나 같을 때 goto l2
+				expr += "ifge " +l2+ "\n" // 크거나 같을 때 goto l2
 						+ "ldc 0" + "\n" // false
 						+ "goto " + lend + "\n"
 						+ l2 + ": " + "ldc 1" + "\n" // true
@@ -424,7 +424,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 
 			case ">":
 				// <(8) Fill here>
-				expr += "ifgt l2"+ "\n" // 클 때 goto l2
+				expr += "ifgt "+ l2+ "\n" // 클 때 goto l2
 						+ "ldc 0" + "\n" // false
 						+ "goto " + lend + "\n"
 						+ l2 + ": " + "ldc 1" + "\n" // true
