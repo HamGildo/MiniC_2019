@@ -251,7 +251,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 					+ "ifeq " + lelse + "\n" // 거짓일 경우 goto lelse
 					+ thenStmt + "\n" // 참일 경우 then stmt 실행
 					+ "goto " + lend + "\n" // if문이 끝나면 lend로
-					+ lelse + ": " + elseStmt + "\n" // else의 stmt
+					+ lelse + ":" +"\n"+ elseStmt + "\n" // else의 stmt
 					+ lend + ":"  + "\n"; // lend
 		}
 		
@@ -295,12 +295,14 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 				}
 				//else	// Type int array => Later! skip now..
 				//	expr += "           lda " + symbolTable.get(ctx.IDENT().getText()).value + " \n";
-				} else if (ctx.LITERAL() != null) {
-					String literalStr = ctx.LITERAL().getText();
-					expr += "ldc " + literalStr + " \n";
-				}
-			} else if(ctx.getChildCount() == 2) { // UnaryOperation
-			expr = handleUnaryExpr(ctx, newTexts.get(ctx.expr(0)) + expr);
+			}
+			else if (ctx.LITERAL() != null) {
+			    String literalStr = ctx.LITERAL().getText();
+			    expr += "ldc " + literalStr + " \n";
+			}
+		}
+		else if(ctx.getChildCount() == 2) { // UnaryOperation
+			expr = handleUnaryExpr(ctx, expr); //newTexts.get(ctx.expr(0)) + expr
 		}
 		else if(ctx.getChildCount() == 3) {	 
 			if(ctx.getChild(0).getText().equals("(")) { 		// '(' expr ')'
@@ -349,9 +351,9 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 			break;
 		case "!":
 			expr += "ifeq " + l2 + "\n" // 거짓이면 (0일때) goto l2
-					+ l1 + ": " + "ldc 0" + "\n" // 참이면 (1일때) false (0)
+					+ l1 + ":"+ "\n" + "ldc 0" + "\n" // 참이면 (1일때) false (0)
 					+ "goto " + lend + "\n" // goto lend
-					+ l2 + ": " + "ldc 1" + "\n" // true (1)
+					+ l2 + ":" +"\n"+ "ldc 1" + "\n" // true (1)
 					+ lend + ": " + "\n"; // lend
 			break;
 		}
