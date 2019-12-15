@@ -65,7 +65,7 @@ public class SymbolTable {
 	void putLocalVar(String varname, Type type){
 		//<Fill here>
         int localTableSize = _lsymtable.size(); //현재 로컬테이블에 몇개가 있는지 알아냄
-        VarInfo localinfo = new VarInfo(type, localTableSize); // 이미 다른 변수가 차지한 번호 다음 번호부터 매긴다.
+        VarInfo localinfo = new VarInfo(type, localTableSize+1); // 이미 다른 변수가 차지한 번호 다음 번호부터 매긴다.
         _lsymtable.put(varname, localinfo);
 	}
 	
@@ -77,7 +77,7 @@ public class SymbolTable {
 	void putLocalVarWithInitVal(String varname, Type type, int initVar){
 		//<Fill here>
 		int localTableSize = _lsymtable.size(); //현재 로컬테이블에 몇개가 있는지 알아냄
-		VarInfo localinfo = new VarInfo(type, localTableSize, initVar); // 이미 다른 변수가 차지한 번호 다음 번호부터 매긴다.
+		VarInfo localinfo = new VarInfo(type, localTableSize+1, initVar); // 이미 다른 변수가 차지한 번호 다음 번호부터 매긴다.
 		_lsymtable.put(varname, localinfo);
 	}
 	void putGlobalVarWithInitVal(String varname, Type type, int initVar){ //글로벌 변수는 없다고 가정하기에 무시한다.

@@ -314,7 +314,6 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 				
 			} else { 											// binary operation
 				expr = handleBinExpr(ctx, expr);
-				
 			}
 		}
 		// IDENT '(' args ')' |  IDENT '[' expr ']'
@@ -402,7 +401,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 				expr += "ifle " +l2+ "\n" // 작거나 같을 때 goto l2
 						+ "ldc 0" + "\n" // false
 						+ "goto " + lend + "\n"
-						+ l2 + ": " + "ldc 1" + "\n" // true
+						+ l2 + ": \n" + "ldc 1" + "\n" // true
 						+ lend + ": " + "\n"; // lend
 				break;
 			case "<":
@@ -410,7 +409,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 				expr += "iflt "+ l2+ "\n" // 작을 때 goto l2
 						+ "ldc 0" + "\n" // false
 						+ "goto " + lend + "\n"
-						+ l2 + ": " + "ldc 1" + "\n" // true
+						+ l2 + ": \n" + "ldc 1" + "\n" // true
 						+ lend + ": " + "\n"; // lend
 				break;
 
@@ -419,7 +418,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 				expr += "ifge " +l2+ "\n" // 크거나 같을 때 goto l2
 						+ "ldc 0" + "\n" // false
 						+ "goto " + lend + "\n"
-						+ l2 + ": " + "ldc 1" + "\n" // true
+						+ l2 + ": \n" + "ldc 1" + "\n" // true
 						+ lend + ": " + "\n"; // lend
 
 				break;
@@ -429,7 +428,7 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 				expr += "ifgt "+ l2+ "\n" // 클 때 goto l2
 						+ "ldc 0" + "\n" // false
 						+ "goto " + lend + "\n"
-						+ l2 + ": " + "ldc 1" + "\n" // true
+						+ l2 + ": \n" + "ldc 1" + "\n" // true
 						+ lend + ": " + "\n"; // lend
 				break;
 
