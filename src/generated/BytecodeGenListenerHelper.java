@@ -122,7 +122,7 @@ public class BytecodeGenListenerHelper {
 	}
 	
 	static boolean noElse(If_stmtContext ctx) {
-		return ctx.getChildCount() < 5;
+		return ctx.getChildCount() == 5;
 	}
 	
 	static String getFunProlog() { // 초반에 클래스 생성부는 통일되기 때문에 직접 넣어준다.
