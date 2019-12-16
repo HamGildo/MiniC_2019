@@ -1,15 +1,9 @@
-int sum(int cnt) {
-int result = 0;
-int i = 0;
-while(i < cnt) {
-result = 1 + result;
-i = i + 1;
-}
-return result;
-}
 void main() {
 int s = 0;
-s = sum(10);
+int integer = 100;
+int bool_input = 0;
+bool_input = 1 < 5;
+s = integer + bool_input;
 _print(s);
 return ;
 }

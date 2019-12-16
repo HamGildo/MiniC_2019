@@ -23,16 +23,19 @@ public class SymbolTable {
 		Type type; 
 		int id;
 		int initVal;
+		boolean isBool;
 		
 		public VarInfo(Type type,  int id, int initVal) {
 			this.type = type;
 			this.id = id;
 			this.initVal = initVal;
+			this.isBool = false;
 		}
 		public VarInfo(Type type,  int id) {
 			this.type = type;
 			this.id = id;
 			this.initVal = 0;
+			this.isBool = false;
 		}
 	}
 	
@@ -66,6 +69,8 @@ public class SymbolTable {
 		//<Fill here>
         int localTableSize = _lsymtable.size(); //현재 로컬테이블에 몇개가 있는지 알아냄
         VarInfo localinfo = new VarInfo(type, localTableSize+1); // 이미 다른 변수가 차지한 번호 다음 번호부터 매긴다.
+		String[] sp = varname.split("_");
+		if(sp[0].equals("bool")) localinfo.isBool = true;
         _lsymtable.put(varname, localinfo);
 	}
 	
@@ -78,6 +83,8 @@ public class SymbolTable {
 		//<Fill here>
 		int localTableSize = _lsymtable.size(); //현재 로컬테이블에 몇개가 있는지 알아냄
 		VarInfo localinfo = new VarInfo(type, localTableSize+1, initVar); // 이미 다른 변수가 차지한 번호 다음 번호부터 매긴다.
+		String[] sp = varname.split("_");
+		if(sp[0].equals("bool")) localinfo.isBool = true;
 		_lsymtable.put(varname, localinfo);
 	}
 	void putGlobalVarWithInitVal(String varname, Type type, int initVar){ //글로벌 변수는 없다고 가정하기에 무시한다.
@@ -89,6 +96,8 @@ public class SymbolTable {
 		for(int i = 0; i < params.param().size(); i++) { //매개변수 모두를 로컬테이블에 미리 넣어줌
 		//<Fill here>
 			VarInfo paraminfo = new VarInfo(Type.INT,i); // MiniC의 매개변수의 타입은 int
+			String[] sp = getParamName(params.param(i)).split("_");
+			if(sp[0].equals("bool")) paraminfo.isBool = true;
 			_lsymtable.put(getParamName(params.param(i)), paraminfo); // 매개변수는 로컬 테이블에 넣는다
 		}
 	}
@@ -144,6 +153,13 @@ public class SymbolTable {
         VarInfo varInfo = _lsymtable.get(name);
         sname = Integer.toString(varInfo.id); // 함수의 이름으로 테이블에 있는 var정보를 찾아 id를 리턴
         return sname;
+	}
+
+	boolean getVarIsbool(String name){
+		boolean result;
+		VarInfo varInfo = _lsymtable.get(name);
+		result = varInfo.isBool;
+		return result;
 	}
 	
 	Type getVarType(String name){

@@ -157,6 +157,12 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		String l1 = symbolTable.newLabel();
 		String lend = symbolTable.newLabel();
 
+		boolean isBool;
+		if(ctx.expr().IDENT() != null) {
+			isBool = symbolTable.getVarIsbool(ctx.expr().IDENT().getText());
+			if(!isBool) System.out.println("error!!!!");
+		}
+
 		stmt += l1 + ":" + "\n" // while loop
 				+ condExpr +"\n" // condition
 				+ "ifeq " + lend + "\n" // if false (0일때) goto lend
@@ -237,6 +243,12 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		
 		String lend = symbolTable.newLabel();
 		String lelse = symbolTable.newLabel();
+
+		boolean isBool;
+		if(ctx.expr().IDENT() != null) {
+			isBool = symbolTable.getVarIsbool(ctx.expr().IDENT().getText());
+			if(!isBool) System.out.println("error!!!!");
+		}
 		
 		
 		if(noElse(ctx)) { // else가 없을 때
@@ -309,6 +321,12 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 				expr = newTexts.get(ctx.expr(0)); // 괄호 안에 있으면 안에 있는 expr만 넣음
 				
 			} else if(ctx.getChild(1).getText().equals("=")) { 	// IDENT '=' expr
+				boolean isBool_e, isBool_i;
+				isBool_e = symbolTable.getVarIsbool(ctx.expr(0).IDENT().getText());
+				isBool_i = symbolTable.getVarIsbool(ctx.IDENT().getText());
+
+				if(!(isBool_e==isBool_i)) System.out.println("error!!!!");
+
 				expr = newTexts.get(ctx.expr(0))
 						+ "istore_" + symbolTable.getVarId(ctx.IDENT().getText()) + " \n";
 				
@@ -366,6 +384,13 @@ public class BytecodeGenListener extends MiniCBaseListener implements ParseTreeL
 		
 		expr += newTexts.get(ctx.expr(0));
 		expr += newTexts.get(ctx.expr(1));
+
+		boolean e1, e2;
+		if(ctx.expr(0).IDENT()!=null && ctx.expr(1).IDENT()!=null) {
+			e1 = symbolTable.getVarIsbool(ctx.expr(0).IDENT().getText());
+			e2 = symbolTable.getVarIsbool(ctx.expr(1).IDENT().getText());
+			if(!(e1==e2)) System.out.println("error!!!!");
+		}
 		
 		switch (ctx.getChild(1).getText()) {
 			case "*": // 곱셈
